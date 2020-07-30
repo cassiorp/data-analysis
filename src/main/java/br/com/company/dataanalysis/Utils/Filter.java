@@ -1,5 +1,7 @@
 package br.com.company.dataanalysis.Utils;
 
+import br.com.company.dataanalysis.Services.WriterService;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.logging.Logger;
 
 public class Filter {
 
-    Writer writer = new Writer();
+    WriterService writerService = new WriterService();
     private final Logger logger = Logger.getLogger(Filter.class
             .getName());
 
@@ -21,8 +23,8 @@ public class Filter {
                 System.out.println(file);
             }else{
                 recusedFiles.add(file);
-                writer.fileLogWriter(file);
-                logger.info(file.getAbsolutePath()+"invalid format");
+                writerService.fileLogWriter(file);
+                logger.info(file.getAbsolutePath()+" invalid format");
             }
         }
         return acceptedFiles;

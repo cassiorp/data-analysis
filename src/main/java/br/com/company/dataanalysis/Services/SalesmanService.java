@@ -2,30 +2,42 @@ package br.com.company.dataanalysis.Services;
 
 
 import br.com.company.dataanalysis.Entities.Salesman;
+import br.com.company.dataanalysis.Utils.Filter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SalesmanService {
 
+    private final Logger logger = Logger.getLogger(Filter.class.getName());
     SaleService saleService = new SaleService();
 
-    public Boolean createSalesman(String line, List<Salesman> salesmans){
+    public Salesman createSalesman(String line, List<Object> obj){
         String[] separedLine = line.split("ç");
-        int size = salesmans.size();
         Double salary = this.strToDouble(separedLine[3]);
         Salesman salesman = new Salesman(separedLine[1], separedLine[2], salary);
-
-        if(salesman.equals(null) || !salesmensValidator(salesman, salesmans)){
-            return false;
+        if(ifExists(salesman, obj)){
+            logger.info("Sales with cpf already registred");
         }
-        salesmans.add(salesman);
-        return size < salesmans.size() ? true : false;
+        return salesman;
     }
 
-    private Boolean salesmensValidator(Salesman salesman, List<Salesman> salesmens){
+    public List<Salesman> getAllSalesmans(List<Object> objects){
+        List<Salesman> salesmens = new ArrayList<>();
+        for(Object obj: objects){
+            if(obj instanceof Salesman){
+                salesmens.add((Salesman) obj);
+            }
+        }
+        return salesmens;
+    }
+
+    private Boolean ifExists(Salesman salesman, List<Object> objs){
+        List<Salesman> salesmens = getAllSalesmans(objs);
         for(Salesman s: salesmens){
             if(salesman.getCpf().equals(s.getCpf())){
-                return false;
+                return true;
             }
         }
         return true;
@@ -62,7 +74,6 @@ public class SalesmanService {
         }
         return false;
     }
-
     private double strToDouble(String salaryStr){
       return Double.parseDouble(salaryStr);
     }

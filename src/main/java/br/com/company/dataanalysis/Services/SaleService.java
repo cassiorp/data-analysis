@@ -1,5 +1,6 @@
 package br.com.company.dataanalysis.Services;
 
+import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Item;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaleService {
+
+    ItemService itemService = new ItemService();
 
     public Boolean createSale(String line, List<Sale> sales, Salesman salesman){
 
@@ -18,7 +21,7 @@ public class SaleService {
         int idSale = this.strToInt(separedLine[1]);
         sale.setIdSale(idSale);
 
-        String itemExtracted = this.extractsItem(separedLine[2]);
+        String itemExtracted = itemService.extractsItem(line);
         String[] itens = itemExtracted.split(",");
 
         for(String item: itens){
@@ -36,6 +39,16 @@ public class SaleService {
             return false;
         }
         return true;
+    }
+
+    public List<Sale> getAllSales(List<Object> objects){
+            List<Sale> sales = new ArrayList<>();
+            for(Object obj: objects){
+                if(obj instanceof Sale){
+                    sales.add((Sale) obj);
+                }
+            }
+            return sales;
     }
 
     private Boolean salesValidator(Sale sale, List<Sale> sales){
@@ -79,14 +92,7 @@ public class SaleService {
         return total;
     }
 
-    private String extractsItem(String separedLine){
-        String itensSemCouchetes = separedLine.replaceAll("\\[|\\]", "");
-        String noName = itensSemCouchetes.replaceAll("\\s", "ç");
-        String[] sepered = noName.split("ç");
-        String extracted = sepered[0];
 
-        return extracted;
-    }
 
     public String extractsName(String line){
         String[] itemsGetName = line.split("ç");
