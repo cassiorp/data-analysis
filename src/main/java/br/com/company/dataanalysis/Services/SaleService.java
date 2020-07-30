@@ -1,44 +1,60 @@
 package br.com.company.dataanalysis.Services;
 
-import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Item;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SaleService {
 
     ItemService itemService = new ItemService();
+    SalesmanService salesmanService = new SalesmanService();
+    private final Logger logger = Logger.getLogger(Salesman.class.getName());
+    Salesman salesman;
 
-    public Boolean createSale(String line, List<Sale> sales, Salesman salesman){
+
+    public Sale createSale(String line, List<Object> obj, Integer wichLine, File file){
 
         Sale sale = new Sale();
-        List<Item> itemList = new ArrayList<>();
 
         String[] separedLine = line.split("ç");
         int idSale = this.strToInt(separedLine[1]);
         sale.setIdSale(idSale);
-
-        String itemExtracted = itemService.extractsItem(line);
-        String[] itens = itemExtracted.split(",");
-
-        for(String item: itens){
-            String[] values = item.split("-");
-            itemList.add(new Item(Integer.parseInt(values[0]), Integer.parseInt(values[1]), this.strToDouble(values[2])));
+        if(ifExists(sale, obj)){
+            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Sale with Id already registred");
+            return null;
         }
 
+        List<Item> items = itemService.createItemsForSale(line);
+
+        String salesmanName = extractsName(line);
+
+        List<Salesman> salesmens = salesmanService.getAllSalesmans(obj);
+        this.salesman = salesmanService.findByName(salesmanName, obj);
+        if (salesman == null) {
+            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Salesman not found ");
+            return null;
+
+        }
+
+        sale.setItens(items);
         sale.setSalesman(salesman);
-        sale.setItens(itemList);
-        sales.add(sale);
-
         salesman.setSales(sale);
+        return sale;
+    }
 
-        if(!extractsName(line).equals(salesman.getName()) || salesValidator(sale, sales)) {
-            return false;
+    public Boolean ifExists(Sale sale, List<Object> objs){
+        List<Sale> sales = this.getAllSales(objs);
+        for(Sale s: sales){
+            if(sale.getIdSale().equals(s.getIdSale())){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     public List<Sale> getAllSales(List<Object> objects){
@@ -75,7 +91,7 @@ public class SaleService {
         return best.getIdSale();
     }
 
-    private Double totalSaleValue(Sale sale){
+    public Double totalSaleValue(Sale sale){
         Double total = 0.0;
         List<Item> items = sale.getItens();
         for(Item i: items){
@@ -92,8 +108,6 @@ public class SaleService {
         return total;
     }
 
-
-
     public String extractsName(String line){
         String[] itemsGetName = line.split("ç");
         return itemsGetName[3];
@@ -105,5 +119,6 @@ public class SaleService {
     private double strToDouble(String priceStr){
         return Double.parseDouble(priceStr);
     }
+
 
 }

@@ -85,4 +85,21 @@ public class ReaderServiceTest {
         }
     }
 
+    @Test
+    void ifGetCod(){
+        String line ="001çg234567891234çPedroç50000";
+        String cod = readerService.getCod(line);
+
+        String line2 ="002çg234567891234çPedroç50000";
+        String cod2 = readerService.getCod(line2);
+
+        String line3 ="003çg234567891234çPedroç50000";
+        String cod3 = readerService.getCod(line3);
+
+        Assertions.assertEquals("001", cod);
+        Assertions.assertEquals("002", cod2);
+        Assertions.assertEquals("003", cod3);
+
+    }
+
 }

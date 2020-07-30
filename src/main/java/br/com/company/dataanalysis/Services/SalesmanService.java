@@ -2,18 +2,17 @@ package br.com.company.dataanalysis.Services;
 
 
 import br.com.company.dataanalysis.Entities.Salesman;
-import br.com.company.dataanalysis.Utils.Filter;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class SalesmanService {
 
     private final Logger logger = Logger.getLogger(Salesman.class.getName());
-    SaleService saleService = new SaleService();
+    SaleService saleService;
+    Salesman salesman = new Salesman();
 
     public Salesman createSalesman(String line, List<Object> obj, Integer wichLine, File file){
         String[] separedLine = line.split("ç");
@@ -46,17 +45,8 @@ public class SalesmanService {
         return false;
     }
 
-    public Salesman findByName(String name, List<Object> objs){
-        List<Salesman> salesmens = this.getAllSalesmans(objs);
-        for(Salesman salesman: salesmens){
-            if(salesman.getName().equals(name)){
-                return salesman;
-            }
-        }
-        return null;
-    }
-
     public Salesman worstSalesman(List<Salesman> salesmens){
+        saleService = new SaleService();
         Salesman worst = salesmens.get(0);
         Double totalSalesWorstSalesman = saleService.totalAllSaleValue(worst.getSales());
         for(Salesman salesman: salesmens){
@@ -67,6 +57,16 @@ public class SalesmanService {
             }
         }
         return worst;
+    }
+
+    public Salesman findByName(String name, List<Object> objs){
+        List<Salesman> salesmens = getAllSalesmans(objs);
+        for(Salesman salesman: salesmens){
+            if(salesman.getName().equals(name)){
+                return salesman;
+            }
+        }
+        return null;
     }
 
     private double strToDouble(String salaryStr){

@@ -84,7 +84,7 @@ public class SalesmanServiceTest {
         objects.add(salesman2);
 
         Salesman salesmanTest = salesmanService.findByName("Pedro", objects);
-        Salesman salesmanTest2 = salesmanService.findByName("Julio", objects);
+        Salesman salesmanTest2 = salesmanService.findByName("Cassio", objects);
 
         Assertions.assertEquals(salesmanTest.getCpf(), salesman1.getCpf());
         Assertions.assertEquals(null, salesmanTest2);
@@ -95,11 +95,6 @@ public class SalesmanServiceTest {
         String line = "001ç00100100165çPedroç1900.0";
         String line2 = "001ç00100100166çJoseç1900.0";
         String line3 = "001ç00100100167çCassioç1900.0";
-        String saleLine =  "003ç10ç[1-10-1,2-15-2.50,3-10-3.10]çPedro";
-        String saleLine2 =  "003ç10ç[1-10-10,2-30-2.50,3-40-3.10]çJose";
-        String saleLine3 =  "S003ç10ç[1-10-1000,2-30-2.50,3-40-300.10]çCassio";
-
-        List<Sale> sales = new ArrayList<>();
 
         Salesman salesman1 = salesmanService.createSalesman(line,objects, 1,file );
         objects.add(salesman1);
@@ -110,15 +105,22 @@ public class SalesmanServiceTest {
         Salesman salesman3 = salesmanService.createSalesman(line3,objects, 2,file );
         objects.add(salesman3);
 
-        saleService.createSale(saleLine, sales, salesman1);
-        saleService.createSale(saleLine2, sales, salesman2);
-        saleService.createSale(saleLine3, sales, salesman3);
+        String saleLine =  "003ç10ç[1-100-100,2-150-200,3-100-3000]çPedro";
+
+        String saleLine2 =  "003ç11ç[1-10-10,2-30-2.50,3-40-3.10]çJose";
+
+        String saleLine3 =  "003ç12ç[1-10-1,2-30-2,3-40-3]çCassio";
+
+        List<Sale> sales = new ArrayList<>();
+
+        objects.add(saleService.createSale(saleLine, objects, 1, file));
+        objects.add(saleService.createSale(saleLine2, objects, 2, file));
+        objects.add(saleService.createSale(saleLine3, objects, 3, file));
 
         List<Salesman> salesmens = salesmanService.getAllSalesmans(objects);
-
         Salesman wort = salesmanService.worstSalesman(salesmens);
 
-        Assertions.assertEquals("Pedro", wort.getName());
+        Assertions.assertEquals("Cassio", wort.getName());
 
     }
 
