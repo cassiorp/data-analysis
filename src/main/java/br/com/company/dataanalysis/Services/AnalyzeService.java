@@ -14,6 +14,7 @@ public class AnalyzeService {
     ReaderService readerService = new ReaderService();
     SaleService saleService = new SaleService();
     SalesmanService salesmanService = new SalesmanService();
+    ClientService clientService = new ClientService();
 
     public void analyzer( List<File> files)  {
         List<Objects> objects = new ArrayList<>();
@@ -33,24 +34,20 @@ public class AnalyzeService {
                 if(readerService.linesValidator(line)){
                     System.out.println("Linha valida " +line + wichLine);
                     wichLine++;
-
                     String cod = readerService.getCod(line);
-
                     switch (cod) {
                         case "001" :
-                            objs.add(salesmanService.createSalesman(line, objs));
+                            objs.add(salesmanService.createSalesman(line, objs, wichLine, file));
                             break;
                         case "002":
+                            objs.add(clientService.createClient(line, objs, wichLine, file));
                             break;
                         case "003":
                             break;
                         default:
-                         
+
                             break;
                     }
-
-
-
                 }else{
                     System.out.println("Linha invalida " + line + wichLine);
                     wichLine++;
@@ -60,6 +57,7 @@ public class AnalyzeService {
         }catch (Exception e){
             System.out.println("Erro: " + e.getMessage());
         }
+        System.out.println(objs.size());
         return objs;
     }
 }
