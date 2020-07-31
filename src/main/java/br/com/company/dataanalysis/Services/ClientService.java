@@ -1,7 +1,6 @@
 package br.com.company.dataanalysis.Services;
 
 import br.com.company.dataanalysis.Entities.Client;
-import br.com.company.dataanalysis.Utils.Filter;
 
 import java.io.File;
 import java.util.ArrayList;

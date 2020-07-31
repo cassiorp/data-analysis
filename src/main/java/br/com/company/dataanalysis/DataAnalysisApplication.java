@@ -3,6 +3,7 @@ package br.com.company.dataanalysis;
 import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Services.AnalyzeService;
 import br.com.company.dataanalysis.Services.WriterService;
+import br.com.company.dataanalysis.Utils.PathCreator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -21,7 +22,8 @@ public class DataAnalysisApplication {
 	public static void main(String[] args) {
 		final Logger logger = Logger.getLogger(DataAnalysisApplication.class.getName());
 		AnalyzeService analyzeService = new AnalyzeService();
-		File pathIn = new File("/home/cassio/data/in");
+		PathCreator pathCreator = new PathCreator();
+		File pathIn = pathCreator.createPath("in");
 		List<File> files = Arrays.asList(pathIn.listFiles(File::isFile));
 		List<Object> objects = new ArrayList<>();
 		WriterService writerService = new WriterService();
@@ -30,7 +32,6 @@ public class DataAnalysisApplication {
 			WatchKey watchKey = pathIn.toPath().register(watchService,StandardWatchEventKinds.ENTRY_CREATE);
 			while (true) {
 				for (WatchEvent<?> event : watchKey.pollEvents()) {
-					System.out.println(event.kind());
 					objects = analyzeService.analyzer(files);
 					writerService.reportWriter(objects);
 				}

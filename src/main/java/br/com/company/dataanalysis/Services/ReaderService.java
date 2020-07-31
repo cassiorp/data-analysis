@@ -14,7 +14,7 @@ public class ReaderService {
         String[] brokenLine = line.split("ç");
         for(String l: brokenLine){
             if(codeValidator(brokenLine[0])){
-                Object obj = returnType(brokenLine[0]);
+                Object obj = getType(brokenLine[0]);
                 if (Salesman.class.equals(obj)) {
                     return strToLong(brokenLine[1]) && strToDouble(brokenLine[3]);
                 } else if (Client.class.equals(obj)) {
@@ -35,7 +35,7 @@ public class ReaderService {
         }
         return false;
     }
-    public Object returnType(String line){
+    public Object getType(String line){
         if(line.equals(validCods[0])){
             return Salesman.class;
         }else if(line.equals(validCods[1])){

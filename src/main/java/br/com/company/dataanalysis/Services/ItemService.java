@@ -7,8 +7,6 @@ import java.util.List;
 
 public class ItemService {
 
-
-
     public List<Item> createItemsForSale(String line){
         List<Item> items = new ArrayList<>();
         if(!ifIsSale(line)){

@@ -16,7 +16,6 @@ public class SaleService {
     private final Logger logger = Logger.getLogger(Salesman.class.getName());
     Salesman salesman;
 
-
     public Sale createSale(String line, List<Object> obj, Integer wichLine, File file){
 
         Sale sale = new Sale();

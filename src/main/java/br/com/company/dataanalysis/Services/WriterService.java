@@ -4,20 +4,20 @@ package br.com.company.dataanalysis.Services;
 import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
+import br.com.company.dataanalysis.Utils.PathCreator;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class WriterService {
 
     Date data = new Date(System.currentTimeMillis());
-    File pathLog = new File("/home/cassio/data/log/logs.dat");
-    File pathOut = new File("/home/cassio/data/out/processed.done.dat");
+    PathCreator pathCreator = new PathCreator();
+    File pathOut = pathCreator.createPath("out");
 
     SalesmanService salesmanService = new SalesmanService();
     ClientService clientService = new ClientService();
@@ -41,33 +41,16 @@ public class WriterService {
     }
 
     public void writer( String str, File path ){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+        File out = combine(path.getAbsolutePath(), "processed.done.dat");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(out))) {
             bw.write(str);
             bw.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void lineLogWriter(Integer wichLine, String tipo, File file){
-
-        String str =   data +" Line: " + wichLine + " - File: " + file.getAbsoluteFile() +
-                " - " + tipo +" with wrong information";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(pathLog, true))) {
-            bw.write(str);
-            bw.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static File combine(String path, String file) {
+        return new File(path, file);
     }
 
-    public void fileLogWriter(File file){
-        String str =   data +" - File: " + file.getAbsoluteFile() + " invalid format file!";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(pathLog, true))) {
-            bw.write(str);
-            bw.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

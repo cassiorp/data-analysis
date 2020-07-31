@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 
 @Service
 public class AnalyzeService {
-    File in = new File("/home/cassio/data/in/");
-
     private final Logger logger = Logger.getLogger(Salesman.class.getName());
 
     ReaderService readerService = new ReaderService();
@@ -42,17 +40,13 @@ public class AnalyzeService {
                 readerLine(line, wichLine, file);
                 wichLine++;
             }
-
         }catch (Exception e){
-            System.out.println("Erro: " + e.getMessage());
+            logger.info("Error erro erro: " + e.getMessage());
         }
-        
-        System.out.println(objects.size());
     }
 
     public void readerLine(String line, Integer wichLine, File file){
         if(readerService.linesValidator(line)){
-            System.out.println("Valid line " + wichLine +" - "+ line );
             String cod = readerService.getCod(line);
             switch (cod) {
                 case "001" :
