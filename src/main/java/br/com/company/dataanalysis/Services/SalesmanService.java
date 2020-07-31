@@ -19,7 +19,7 @@ public class SalesmanService {
         Double salary = this.strToDouble(separedLine[3]);
         Salesman salesman = new Salesman(separedLine[1], separedLine[2], salary);
         if(ifExists(salesman, obj)){
-            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Salesman with cpf already registred");
+            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Salesman with cpf already registered");
             return null;
         }
         return salesman;

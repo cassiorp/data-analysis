@@ -25,7 +25,7 @@ public class SaleService {
         int idSale = this.strToInt(separedLine[1]);
         sale.setIdSale(idSale);
         if(ifExists(sale, obj)){
-            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Sale with Id already registred");
+            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Sale with Id already registered");
             return null;
         }
 

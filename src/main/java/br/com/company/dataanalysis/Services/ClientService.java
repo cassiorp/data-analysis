@@ -16,7 +16,7 @@ public class ClientService {
         String[] separedLine = line.split("ç");
         Client client = new Client(separedLine[1], separedLine[2], separedLine[3]);
         if(ifExists(client, obj)){
-            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Salesman with cpf already registred");
+            logger.info("Line: "+ wichLine+" Path: "+ file.getAbsolutePath() +" Salesman with cpf already registered");
             return null;
         }
         return client;

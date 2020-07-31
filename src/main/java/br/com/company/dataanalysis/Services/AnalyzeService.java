@@ -4,7 +4,6 @@ import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
 import br.com.company.dataanalysis.Utils.Filter;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,9 +11,8 @@ import java.util.*;
 import java.util.logging.Logger;
 
 
-@Service
 public class AnalyzeService {
-    private final Logger logger = Logger.getLogger(Salesman.class.getName());
+    private final Logger logger = Logger.getLogger(AnalyzeService.class.getName());
 
     ReaderService readerService = new ReaderService();
     SaleService saleService = new SaleService();
@@ -41,7 +39,7 @@ public class AnalyzeService {
                 wichLine++;
             }
         }catch (Exception e){
-            logger.info("Error erro erro: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
     }
 
