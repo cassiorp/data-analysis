@@ -15,13 +15,11 @@ public class Filter {
 
     public List<File> filter(List<File> files ){
         List<File> acceptedFiles = new ArrayList<>();
-        List<File> recusedFiles = new ArrayList<>();
         for (File file : files) {
             if(file.getName().endsWith(".dat")){
                 acceptedFiles.add(file);
                 System.out.println(file);
             }else{
-                recusedFiles.add(file);
                 logger.info(file.getAbsolutePath()+" invalid format");
             }
         }

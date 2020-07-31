@@ -32,9 +32,6 @@ public class ItemService {
     }
     public Boolean ifIsSale(String line){
         ReaderService readerService = new ReaderService();
-        if(readerService.getCod(line).equals("003")){
-           return true;
-       }
-       return false;
+        return readerService.getCod(line).equals("003");
     }
 }

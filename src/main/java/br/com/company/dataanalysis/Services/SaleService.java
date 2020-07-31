@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class SaleService {
 
@@ -48,31 +49,13 @@ public class SaleService {
 
     public Boolean ifExists(Sale sale, List<Object> objs){
         List<Sale> sales = this.getAllSales(objs);
-        for(Sale s: sales){
-            if(sale.getIdSale().equals(s.getIdSale())){
-                return true;
-            }
-        }
-        return false;
+        return sales.stream().anyMatch(s -> s.getIdSale().equals(sale.getIdSale()));
     }
 
-    public List<Sale> getAllSales(List<Object> objects){
-            List<Sale> sales = new ArrayList<>();
-            for(Object obj: objects){
-                if(obj instanceof Sale){
-                    sales.add((Sale) obj);
-                }
-            }
-            return sales;
-    }
-
-    private Boolean salesValidator(Sale sale, List<Sale> sales){
-        for(Sale s: sales){
-            if(s.getIdSale().equals(sale.getIdSale())){
-                return false;
-            }
-        }
-        return true;
+    public List<Sale> getAllSales(List<Object> objs){
+        List<Sale> sales = new ArrayList<>();
+        return sales = objs.stream().filter(s -> s instanceof Sale).
+                map(s -> (Sale) s).collect(Collectors.toList());
     }
 
     public Integer bestSale(List<Sale> sales){

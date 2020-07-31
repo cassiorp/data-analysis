@@ -4,10 +4,13 @@ import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ReaderService {
 
     ItemService itemService = new ItemService();
-    String[] validCods = {"001", "002", "003"};
+    List<String> validCods = Arrays.asList("001", "002", "003");
 
     public Boolean linesValidator(String line) {
 
@@ -27,20 +30,16 @@ public class ReaderService {
         return false;
 
     }
+
     private Boolean codeValidator(String cod){
-        for(String s: validCods){
-            if(s.equals(cod)){
-                return true;
-            }
-        }
-        return false;
+        return validCods.stream().anyMatch(c -> c.equals(cod));
     }
     public Object getType(String line){
-        if(line.equals(validCods[0])){
+        if(line.equals(validCods.get(0))){
             return Salesman.class;
-        }else if(line.equals(validCods[1])){
+        }else if(line.equals(validCods.get(1))){
             return Client.class;
-        }else if(line.equals(validCods[2])){
+        }else if(line.equals(validCods.get(2))){
             return Sale.class;
         }
         return null;
@@ -73,7 +72,7 @@ public class ReaderService {
             return false;
         }
     }
-    public String[] validCodes(){
+    public List<String> validCodes(){
         return this.validCods;
     }
     public String getCod(String line){

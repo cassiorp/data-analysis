@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ClientService {
 
@@ -20,22 +21,15 @@ public class ClientService {
         }
         return client;
     }
-    public List<Client> getAllClients(List<Object> objects){
-        List<Client> clients = new ArrayList<>();
-        for(Object obj: objects){
-            if(obj instanceof Client){
-                clients.add((Client) obj);
-            }
-        }
-        return clients;
+    public List<Client> getAllClients(List<Object> objs){
+       List<Client> clients = new ArrayList<>();
+       return clients = objs.stream().filter(client -> client instanceof Client).
+                map(client -> (Client) client).collect(Collectors.toList());
+
     }
-    private Boolean ifExists(Client client, List<Object> objs){
+    private Boolean ifExists(Client client, List<Object> objs) {
         List<Client> clients = this.getAllClients(objs);
-        for(Client c: clients){
-            if(client.getCnpj().equals(c.getCnpj())){
-                return true;
-            }
-        }
-        return false;
+        return clients.stream().anyMatch(c -> c.getCnpj().equals(client.getCnpj()));
     }
+
 }

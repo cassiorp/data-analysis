@@ -1,12 +1,12 @@
 package br.com.company.dataanalysis.Services;
 
-
 import br.com.company.dataanalysis.Entities.Salesman;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class SalesmanService {
 
@@ -25,24 +25,15 @@ public class SalesmanService {
         return salesman;
     }
 
-    public List<Salesman> getAllSalesmans(List<Object> objects){
+    public List<Salesman> getAllSalesmans(List<Object> objs){
         List<Salesman> salesmens = new ArrayList<>();
-        for(Object obj: objects){
-            if(obj instanceof Salesman){
-                salesmens.add((Salesman) obj);
-            }
-        }
-        return salesmens;
+        return salesmens = objs.stream().filter(s -> s instanceof Salesman).
+                map(s -> (Salesman) s).collect(Collectors.toList());
     }
 
     public Boolean ifExists(Salesman salesman, List<Object> objs){
         List<Salesman> salesmens = this.getAllSalesmans(objs);
-        for(Salesman salesman1 : salesmens){
-            if(salesman.getCpf().equals(salesman1.getCpf())){
-                return true;
-            }
-        }
-        return false;
+        return salesmens.stream().anyMatch(s -> s.getCpf().equals(salesman.getCpf()));
     }
 
     public Salesman worstSalesman(List<Salesman> salesmens){
