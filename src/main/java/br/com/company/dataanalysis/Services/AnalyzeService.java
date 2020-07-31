@@ -26,13 +26,13 @@ public class AnalyzeService {
 
     Filter filter = new Filter();
 
-    public void analyzer(List<File> files) {
+    public List<Object> analyzer(List<File> files) {
         List<File> filtered = filter.filter(files);
         for (File file : filtered){
-            System.out.println(file.getAbsoluteFile());
             int wichLine = 1;
             reader(file, wichLine);
         }
+        return this.objects;
     }
 
     public void reader(File file, Integer wichLine){
