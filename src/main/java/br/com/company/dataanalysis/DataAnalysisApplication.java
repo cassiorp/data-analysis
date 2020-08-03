@@ -19,25 +19,25 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class DataAnalysisApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		final Logger logger = Logger.getLogger(DataAnalysisApplication.class.getName());
-		AnalyzeService analyzeService = new AnalyzeService();
 		PathCreator pathCreator = new PathCreator();
-		File pathIn = pathCreator.createPath("in");
-		List<File> files = Arrays.asList(pathIn.listFiles(File::isFile));
-		List<Object> objects = new ArrayList<>();
+		Path pathIn = pathCreator.createPath("in").toPath();
+		AnalyzeService analyzeService = new AnalyzeService();
 		WriterService writerService = new WriterService();
 		try {
 			WatchService watchService = FileSystems.getDefault().newWatchService();
-			WatchKey watchKey = pathIn.toPath().register(watchService,StandardWatchEventKinds.ENTRY_CREATE);
+			WatchKey watchKey = pathIn.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY);
 			while (true) {
+				watchService.poll(5, TimeUnit.SECONDS);
 				for (WatchEvent<?> event : watchKey.pollEvents()) {
-					objects = analyzeService.analyzer(files);
-					writerService.reportWriter(objects);
+					List<File> files = Arrays.asList(pathIn.toFile().listFiles(File::isFile));
+					writerService.reportWriter(analyzeService.analyzer(files));
 				}
 			}
 		}catch (Exception ex){
-			logger.info("Error" + ex.getMessage());
+			logger.info("erro:" + ex.getMessage());
 		}
+
 	}
 }
