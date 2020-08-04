@@ -28,8 +28,8 @@ public class WriterService {
         List<Salesman> salesmens = salesmanService.getAllSalesmans(objects);
         List<Client> clients = clientService.getAllClients(objects);
         String report = "";
-        report= report + ("Number of salesmans: " + Integer.toString(salesmens.size())+"\n");
         report= report + ("Number of clients: " + Integer.toString(clients.size())+"\n");
+        report= report + ("Number of salesmans: " + Integer.toString(salesmens.size())+"\n");
         report= report + ("The Best Sale id: " +Integer.toString(saleService.bestSale(sales))+"\n");
         if(sales.size() > 0){
             Salesman worst = salesmanService.worstSalesman(salesmens);
