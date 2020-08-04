@@ -3,9 +3,11 @@
 O projeto foi iniciado com Spring Boot, configurado com Java 8 e Gradle como gerenciador de dependências.
  
 ##Como executar:
+
 Para usar o data-analysis você precisar baixar ou clonar esse repositório entrar na pasta do projeto e executar o comando java -jar ./data-analysis-0.0.1-SNAPSHOT.jar ou importar na sua IDE de preferência e executar o método main. 
 
 ##Como utilizar:
+
 Após a execução do projeto será criado automaticamente dois diretórios no seu computador
 %Homepath%/data/in e %Homepath%/data/out. Dentro do diretório de entrada (in) você poderá adicionar três tipos de dados em arquivos no formato .dat.
 
