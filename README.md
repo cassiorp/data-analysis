@@ -14,6 +14,7 @@ Após a execução do projeto será criado automaticamente dois diretórios no s
 - Venda: 003çSale IDç[Item ID-Item Quantity-Item Price]çSalesman name 
 
 ###Sobre o processamento dos dados:
+
 O código verificador dos vendedores será o CPF, a o cadastrar cada vendedor será verificado se já existe outro vendedor com o mesmo cpf, se houver será lançado um log informando e o vendedor não será processado. O código verificador dos clientes será o CNPJ, e a regra será a mesma que a dos vendedores. As vendas terão um id como identificador, e seguindo o formato terá um vendedor ao fim da linha. Esse vendedor será verificado entre todos os vendedores e será retornado a primeira ocorrência do nome, caso não haja nenhum vendedor com o nome correspondente ou o id já esteja cadastrado não será concluída a compra.
 
 Após o processamento será gerado um relatório do diretório de saída (out) com o nome de processed.done.dat onde terá as seguintes informações, todos sobre o arquivo de entrada:
