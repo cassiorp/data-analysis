@@ -76,6 +76,9 @@ public class SaleService {
     public Double totalSaleValue(Sale sale){
         Double total = 0.0;
         List<Item> items = sale.getItens();
+        if(items == null){
+            return 0.0;
+        }
         for(Item i: items){
             total = total + i.getPrice() * i.getQuant();
         }

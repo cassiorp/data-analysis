@@ -65,7 +65,7 @@ public class AnalyzeService {
                     break;
             }
         }else{
-            logger.info(wichLine + "AQUIII Line with invalid information");
+            logger.info(wichLine + " Line with invalid information");
             wichLine++;
         }
     }

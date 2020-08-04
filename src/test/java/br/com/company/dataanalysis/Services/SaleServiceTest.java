@@ -193,6 +193,9 @@ public class SaleServiceTest {
         String line = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çCassio";
         String salesmanLine = "001ç1234567891234çCassioç50000";
 
+        String line2 = "003ç11ç[1-10-100,2-30-2.50,3-40-3.10]çCassio";
+        String salesmanLine2 = "001ç1234567891234çCassioç50000";
+
 
         Salesman salesman = salesmanService.createSalesman(salesmanLine, objects, 1, path);
         objects.add(salesman);
@@ -200,9 +203,17 @@ public class SaleServiceTest {
         Sale sale = saleService.createSale(line, objects, 1, path);
         objects.add(sale);
 
+        Salesman salesman2 = salesmanService.createSalesman(salesmanLine2, objects, 2, path);
+        objects.add(salesman2);
+
+        Sale sale2 = saleService.createSale(line2, objects, 2, path);
+        objects.add(sale2);
+
         Double total = saleService.totalSaleValue(sale);
+        Double total2 = saleService.totalSaleValue(sale2);
 
         Assertions.assertEquals(1199, total);
+        Assertions.assertEquals(1199, total2);
     }
 
     @Test

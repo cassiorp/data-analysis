@@ -37,15 +37,11 @@ public class SalesmanService {
     }
 
     public Salesman worstSalesman(List<Salesman> salesmens){
-
         saleService = new SaleService();
         Salesman worst = salesmens.get(0);
-        Double totalSalesWorstSalesman = saleService.totalAllSaleValue(worst.getSales());
-        for(Salesman salesman: salesmens){
-            Double salesTotal;
-            salesTotal = saleService.totalAllSaleValue(salesman.getSales());
-            if(salesTotal < totalSalesWorstSalesman){
-                worst = salesman;
+        for(Salesman s: salesmens){
+            if(saleService.totalAllSaleValue(s.getSales()) < saleService.totalAllSaleValue(worst.getSales())){
+                worst = s;
             }
         }
         return worst;

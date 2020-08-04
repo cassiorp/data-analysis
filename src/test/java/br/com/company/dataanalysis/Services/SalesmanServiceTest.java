@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SalesmanServiceTest {
 
@@ -93,25 +95,30 @@ public class SalesmanServiceTest {
     @Test
     void getWorstSalesman(){
         String salesmanLine1 = "001ç00100100165çPedroç1900.0";
-        String salesmanLine2 = "001ç00100100166çJoseç1900.0";
-        String salesmanLine3 = "001ç00100100167çCassioç1900.0";
-        String salesmanLine4 = "001ç00100100168çEduardoç1900.0";
+        String salesmanLine2 = "001ç00100100168çEduardoç1900.0";
+        String salesmanLine3 = "001ç00100100166çJoseç1900.0";
+        String salesmanLine4 = "001ç00100100167çCassioç1900.0";
+
 
         Salesman salesman1 = salesmanService.createSalesman(salesmanLine1,objects, 1,file );
         objects.add(salesman1);
+
         Salesman salesman2 = salesmanService.createSalesman(salesmanLine2,objects, 2,file );
         objects.add(salesman2);
-        Salesman salesman3 = salesmanService.createSalesman(salesmanLine3,objects, 3,file );
-        objects.add(salesman3);
-        Salesman salesman4 = salesmanService.createSalesman(salesmanLine4,objects, 4,file );
+
+        Salesman salesman4 = salesmanService.createSalesman(salesmanLine3,objects, 4,file );
         objects.add(salesman4);
 
-        String saleLine =  "003ç10ç[1-100-100,2-150-200,3-100-3000]çPedro";
+        Salesman salesman3 = salesmanService.createSalesman(salesmanLine4,objects, 3,file );
+        objects.add(salesman4);
+
+        String saleLine =  "003ç10ç[1-100-100,2-150-200,3-100-3000]çJose";
         String saleLine2 =  "003ç11ç[1-10-10,2-30-2.50,3-40-3.10]çCassio";
         String saleLine3 =  "003ç12ç[1-10-1,2-30-2,3-40-3]çCassio";
         String saleLine4 =  "003ç13ç[1-100-100,2-150-200,3-100-3000]çPedro";
-        String saleLine5 =  "003ç14ç[1-100-100,2-150-200,3-100-3000]çCassio";
-        String saleLine6 =  "003ç15ç[1-100-100,2-150-200,3-100-3000]çJose";
+        String saleLine5 =  "003ç15ç[1-1-1,2-1-1,3-1-1]çPedro";
+        String saleLine6 =  "003ç14ç[1-100-100,2-150-200,3-100-3000]çCassio";
+
 
 
         objects.add(saleService.createSale(saleLine, objects, 1, file));
@@ -122,9 +129,10 @@ public class SalesmanServiceTest {
         objects.add(saleService.createSale(saleLine6, objects, 6, file));
 
         List<Salesman> salesmens = salesmanService.getAllSalesmans(objects);
-        Salesman wort = salesmanService.worstSalesman(salesmens);
+        Salesman worst = salesmanService.worstSalesman(salesmens);
 
-        Assertions.assertEquals("Eduardo", wort.getName());
+        Assertions.assertEquals("Eduardo", worst.getName());
+        List<Sale> sales = saleService.getAllSales(objects);
     }
 
     @Test
@@ -138,5 +146,19 @@ public class SalesmanServiceTest {
         boolean verify2 = salesmanService.ifExists(salesman2,objects);
         Assertions.assertEquals(true, verify);
         Assertions.assertEquals(false, verify2);
+    }
+
+    @Test
+    void test(){
+        List<Integer> listOfIntegers = Arrays.asList(1, 2, 3, 4, 56, 7, 89, 10);
+        Integer expectedResult = 1;
+
+        // then
+        Integer max = listOfIntegers
+                .stream()
+                .mapToInt(v -> v)
+                .min().orElseThrow(NoSuchElementException::new);
+
+        Assertions.assertEquals(expectedResult, 1);
     }
 }

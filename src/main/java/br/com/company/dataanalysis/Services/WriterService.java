@@ -24,15 +24,17 @@ public class WriterService {
     SaleService saleService = new SaleService();
 
     public void reportWriter(List<Object> objects){
+        List<Sale> sales = saleService.getAllSales(objects);
         List<Salesman> salesmens = salesmanService.getAllSalesmans(objects);
         List<Client> clients = clientService.getAllClients(objects);
-        List<Sale> sales = saleService.getAllSales(objects);
         String report = "";
         report= report + ("Number of salesmans: " + Integer.toString(salesmens.size())+"\n");
         report= report + ("Number of clients: " + Integer.toString(clients.size())+"\n");
         report= report + ("The Best Sale id: " +Integer.toString(saleService.bestSale(sales))+"\n");
         if(sales.size() > 0){
-            report= report + ("Worst salesman :( : " + salesmanService.worstSalesman(salesmens).getName()+"\n");
+            Salesman worst = salesmanService.worstSalesman(salesmens);
+            report= report + ("Worst salesman:( : " + worst.getName()
+                    +" CPF: "+ worst.getCpf() + "\n");
         }else{
             report= report + ("without sales, it wouldn't be fair :)"+"\n");
         }

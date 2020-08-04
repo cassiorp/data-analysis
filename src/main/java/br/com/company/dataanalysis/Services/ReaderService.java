@@ -76,8 +76,6 @@ public class ReaderService {
             return false;
         }
 
-
-
     }
     public List<String> validCodes(){
         return this.validCods;
