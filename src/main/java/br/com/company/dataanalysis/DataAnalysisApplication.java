@@ -24,6 +24,7 @@ public class DataAnalysisApplication {
 		try {
 			WatchService watchService = FileSystems.getDefault().newWatchService();
 			WatchKey watchKey = pathIn.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY);
+			System.out.println("monitoring directory data/in");
 			while (true) {
 				watchService.poll(3, TimeUnit.SECONDS);
 				for (WatchEvent<?> event : watchKey.pollEvents()) {
