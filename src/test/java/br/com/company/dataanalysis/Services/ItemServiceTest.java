@@ -40,4 +40,5 @@ public class ItemServiceTest {
         String item = itemService.extractsItem(line);
         Assertions.assertEquals("1-10-100,2-30-2.50,3-40-3.10", item);
     }
+
 }

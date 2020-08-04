@@ -27,7 +27,7 @@ public class DataAnalysisApplication {
 		WriterService writerService = new WriterService();
 		try {
 			WatchService watchService = FileSystems.getDefault().newWatchService();
-			WatchKey watchKey = pathIn.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY);
+			WatchKey watchKey = pathIn.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
 			while (true) {
 				watchService.poll(5, TimeUnit.SECONDS);
 				for (WatchEvent<?> event : watchKey.pollEvents()) {
@@ -38,6 +38,5 @@ public class DataAnalysisApplication {
 		}catch (Exception ex){
 			logger.info("erro:" + ex.getMessage());
 		}
-
 	}
 }

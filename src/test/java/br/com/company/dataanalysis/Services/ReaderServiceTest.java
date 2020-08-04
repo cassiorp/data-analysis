@@ -43,13 +43,13 @@ public class ReaderServiceTest {
 
     @Test
     void ifValidLineSale(){
-        String str = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çPedro";
+        String str = "003ç0128ç[1-34-10,2-3-2.50,3-33-10.50,4-23-10.50]çPaulo";
         boolean verify = readerService.linesValidator(str);
         Assertions.assertEquals(true, verify);
     }
     @Test
     void ifNotValidLineSale(){
-        String str = "003ç10ç[c-10-100,2-30-2.50,3-40-3.10]çPedro";
+        String str = "003ç10ç[1-1k-100,2-30-2.50,3-40-3.10]çPedro";
         boolean verify = readerService.linesValidator(str);
         Assertions.assertEquals(false, verify);
     }

@@ -37,6 +37,7 @@ public class SalesmanService {
     }
 
     public Salesman worstSalesman(List<Salesman> salesmens){
+
         saleService = new SaleService();
         Salesman worst = salesmens.get(0);
         Double totalSalesWorstSalesman = saleService.totalAllSaleValue(worst.getSales());

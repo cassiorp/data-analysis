@@ -4,6 +4,7 @@ import br.com.company.dataanalysis.Entities.Client;
 import br.com.company.dataanalysis.Entities.Sale;
 import br.com.company.dataanalysis.Entities.Salesman;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class ReaderService {
     public Boolean linesValidator(String line) {
 
         String[] brokenLine = line.split("ç");
+
+
         for(String l: brokenLine){
             if(codeValidator(brokenLine[0])){
                 Object obj = getType(brokenLine[0]);
@@ -31,7 +34,7 @@ public class ReaderService {
 
     }
 
-    private Boolean codeValidator(String cod){
+    public Boolean codeValidator(String cod){
         return validCods.stream().anyMatch(c -> c.equals(cod));
     }
     public Object getType(String line){
@@ -65,12 +68,16 @@ public class ReaderService {
         itens = itens.replace(".","");
         itens = itens.replace("-","");
         itens = itens.replace(",","");
+
         try {
-            Long.parseLong(itens);
+            BigInteger big = new BigInteger(itens);
             return true;
-        }catch (NumberFormatException e){
+        }catch (Exception ex){
             return false;
         }
+
+
+
     }
     public List<String> validCodes(){
         return this.validCods;
